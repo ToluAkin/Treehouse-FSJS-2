@@ -18,7 +18,7 @@ FSJS project 2 - List Filter and Pagination
 ***/
 const pageListItems = 10;
 const pageDiv = document.querySelector('.page');
-const pageHeaderDiv = document.getElementsByClassName('page-header');
+const pageHeaderDiv = document.querySelector('.page-header');
 const listItems = document.querySelectorAll('li');
 const paginationDiv = document.createElement('div');
 paginationDiv.className = 'pagination';
@@ -87,8 +87,22 @@ const appendPageLinks = (listItem) => {
    }
 }
 
+const filterStudent = () => {
+   const searchBox = document.createElement('div');
+   searchBox.className = 'student-search';
+   pageHeaderDiv.appendChild(searchBox);
+
+   const inputField = document.createElement('input');
+   inputField.placeholder = 'search.....'
+   searchBox.appendChild(inputField);
+
+   const button = document.createElement('button');
+   button.textContent = 'Filter';
+   searchBox.appendChild(button);
+}
 
 
 showPage(1, listItems);
 appendPageLinks(listItems);
+filterStudent();
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
