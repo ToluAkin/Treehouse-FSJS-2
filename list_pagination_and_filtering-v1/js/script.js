@@ -70,7 +70,6 @@ const appendPageLinks = (listItem) => {
       ul.appendChild(li);
       li.appendChild(link);
 
-      console.log()
       link.href = '#';
       link.textContent = i;
 
@@ -87,7 +86,39 @@ const appendPageLinks = (listItem) => {
    }
 }
 
-const filterStudent = () => {
+const filterStudent = (inputValue) => {
+   const searchContent = inputValue.value;
+   const studentList = document.getElementsByTagName('h3');
+   const matchedData = [];
+   const emptyData = document.createElement('div');
+   pageDiv.appendChild(emptyData);
+   paginationDiv.innerHTML = '';
+
+   for (let i = 0; i < listItems.length; i++){
+      listItems[i].style.display = 'none';
+   }
+
+   for (let i = 0; i < studentList.length; i++) {
+      if (studentList[i].textContent.toLowerCase().includes(searchContent.toLowerCase())) {
+         const studentDetails = studentList[i].parentNode.parentNode;
+         matchedData.push(studentDetails);
+         console.log(matchedData)
+      }
+   }
+   
+   if (matchedData.length > 0) {
+      showPage(1, matchedData);
+      appendPageLinks(matchedData);
+      document.querySelector('a').classList = 'active';
+      emptyData.innerHTML = '';
+      paginationDiv.style.display = '';
+   } else {
+      emptyData.innerHTML = '<p> No student matches your search criteria. </p>';
+      paginationDiv.style.display = 'none';
+   }
+}
+
+const searchStudent = () => {
    const searchBox = document.createElement('div');
    searchBox.className = 'student-search';
    pageHeaderDiv.appendChild(searchBox);
@@ -99,10 +130,13 @@ const filterStudent = () => {
    const button = document.createElement('button');
    button.textContent = 'Filter';
    searchBox.appendChild(button);
+
+   button.addEventListener('click', () => filterStudent(inputField))
+   inputField.addEventListener('keyup', () => filterStudent(inputField))
 }
 
 
 showPage(1, listItems);
 appendPageLinks(listItems);
-filterStudent();
+searchStudent();
 // Remember to delete the comments that came with this file, and replace them with your own code comments.
