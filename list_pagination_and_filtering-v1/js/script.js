@@ -96,19 +96,20 @@ const appendPageLinks = (listItem) => {
    => All the students will not be displayed until when the filter is going on.
    => Comparing the list of students and the value of the
    input field all in lowercase then transverse to the parentNode to get all the details
-   of the student and adding them to the empty array if they match.
+   of the student and adding them to the empty array if they match. If they don't match,
+   the error message the no pagination should show.
    => If there is data in the array, it should show the details,
    paginated the page(s), make the first page active, no error
    message should be seen, no style to the pagination.
-   => else the empty data should show the error message the no pagination should show.
 ***/
+
+const emptyData = document.createElement('div');
+pageDiv.appendChild(emptyData);
 
 const filterStudent = (inputValue) => {
    const searchContent = inputValue.value;
    const studentList = document.getElementsByTagName('h3');
    const matchedData = [];
-   const emptyData = document.createElement('div');
-   pageDiv.appendChild(emptyData);
    paginationDiv.innerHTML = '';
 
    listItems.forEach(listItem => {
@@ -125,17 +126,13 @@ const filterStudent = (inputValue) => {
       }
    }
 
-   if (matchedData.length > 0) {
+   if (matchedData != []) {
       showPage(1, matchedData);
       appendPageLinks(matchedData);
       document.querySelector('a').classList = 'active';
       paginationDiv.style.display = '';
       emptyData.innerHTML = '';
-   }
-   // else {
-   //    emptyData.innerHTML = '<p> No student matches your search criteria. </p>';
-   //    paginationDiv.style.display = 'none';
-   // }
+   } 
 }
 
 /***
