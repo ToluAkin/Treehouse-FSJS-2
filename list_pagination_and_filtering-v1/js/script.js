@@ -23,21 +23,14 @@ const listItems = document.querySelectorAll('li');
 const paginationDiv = document.createElement('div');
 paginationDiv.className = 'pagination';
 pageDiv.appendChild(paginationDiv);
-// console.log(listItems)
 
 /*** 
-   Create the `showPage` function to hide all of the items in the 
-   list except for the ten you want to show.
-
-   Pro Tips: 
-     - Keep in mind that with a list of 54 students, the last page 
-       will only display four.
-     - Remember that the first student has an index of 0.
-     - Remember that a function `parameter` goes in the parens when 
-       you initially define the function, and it acts as a variable 
-       or a placeholder to represent the actual function `argument` 
-       that will be passed into the parens later when you call or 
-       "invoke" the function 
+   The showPage function makes sure each page has 10 student details
+   at a time. showPage(params) => index, number of the initial page while 
+   listItem is the list of all the that will be looped through.
+   By setting the style of each student length per page, to be seen 
+   and the others be not displayed until the index of the student 
+   is reached when navigated to.
 ***/
 
 const showPage = (index, listItem) => {
@@ -54,8 +47,17 @@ const showPage = (index, listItem) => {
 }
 
 /*** 
-   Create the `appendPageLinks function` to generate, append, and add 
-   functionality to the pagination buttons.
+   appendPageLinks function is for adding pagination links and number(index)
+   to the pages. 
+   => Gets the number of pages there will be by rounding up to the nearest whole
+   number.
+   => Creating a list element that will contain all the links and number of the
+   pages.
+   => Adding the numbers from the number of pages to the link created for
+   navigating through the pages.
+   => A click event listener is added to the links such that when clicked,
+   the clicked link will show the expected number of student details and 
+   remove the active class and add it to the clicked link.
 ***/
 
 const appendPageLinks = (listItem) => {
@@ -86,6 +88,21 @@ const appendPageLinks = (listItem) => {
    }
 }
 
+/***
+   filterStudent function matches the input field value with that of the student's names
+   => Get the value of the input field and all the list of the student's names, 
+   an empty array to fill all the names of the students that matches the value of the
+   input field.
+   => All the students will not be displayed until when the filter is going on.
+   => Comparing the list of students and the value of the
+   input field all in lowercase then transverse to the parentNode to get all the details
+   of the student and adding them to the empty array if they match.
+   => If there is data in the array, it should show the details,
+   paginated the page(s), make the first page active, no error
+   message should be seen, no style to the pagination.
+   => else the empty data should show the error message the no pagination should show.
+***/
+
 const filterStudent = (inputValue) => {
    const searchContent = inputValue.value;
    const studentList = document.getElementsByTagName('h3');
@@ -94,29 +111,45 @@ const filterStudent = (inputValue) => {
    pageDiv.appendChild(emptyData);
    paginationDiv.innerHTML = '';
 
-   for (let i = 0; i < listItems.length; i++){
-      listItems[i].style.display = 'none';
-   }
+   listItems.forEach(listItem => {
+      listItem.style.display = 'none';
+   });
 
    for (let i = 0; i < studentList.length; i++) {
       if (studentList[i].textContent.toLowerCase().includes(searchContent.toLowerCase())) {
          const studentDetails = studentList[i].parentNode.parentNode;
          matchedData.push(studentDetails);
-         console.log(matchedData)
+      } else {
+         emptyData.innerHTML = '<p> No student matches your search criteria. </p>';
+         paginationDiv.style.display = 'none';
       }
    }
-   
+
    if (matchedData.length > 0) {
       showPage(1, matchedData);
       appendPageLinks(matchedData);
       document.querySelector('a').classList = 'active';
-      emptyData.innerHTML = '';
       paginationDiv.style.display = '';
-   } else {
-      emptyData.innerHTML = '<p> No student matches your search criteria. </p>';
-      paginationDiv.style.display = 'none';
+      emptyData.innerHTML = '';
    }
+   // else {
+   //    emptyData.innerHTML = '<p> No student matches your search criteria. </p>';
+   //    paginationDiv.style.display = 'none';
+   // }
 }
+
+/***
+   searchStudent function provides the look and the action
+   on the in search box. 
+   => The search box is created to the page header
+   => The input field is created an added to the searchBox
+   => A button is created to influence the input field.
+   => Click event listener is added to the button to filter
+   through the list of students when the button is clicked.
+   => input event listener is added on the input field 
+   to filter through the list of all students when there is a
+   value in the input field.
+***/
 
 const searchStudent = () => {
    const searchBox = document.createElement('div');
@@ -132,11 +165,10 @@ const searchStudent = () => {
    searchBox.appendChild(button);
 
    button.addEventListener('click', () => filterStudent(inputField))
-   inputField.addEventListener('keyup', () => filterStudent(inputField))
+   inputField.addEventListener('input', () => filterStudent(inputField))
 }
 
 
 showPage(1, listItems);
 appendPageLinks(listItems);
 searchStudent();
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
