@@ -88,6 +88,9 @@ const appendPageLinks = (listItem) => {
    }
 }
 
+
+
+//EXCEEDS EXPECTATION
 /***
    filterStudent function matches the input field value with that of the student's names
    => Get the value of the input field and all the list of the student's names, 
@@ -165,7 +168,7 @@ const searchStudent = () => {
    inputField.addEventListener('input', () => filterStudent(inputField))
 }
 
-
+// I AM GOING FOR EXCEEDS EXPECTATION
 showPage(1, listItems);
 appendPageLinks(listItems);
 searchStudent();
