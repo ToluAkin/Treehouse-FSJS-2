@@ -122,10 +122,10 @@ const filterStudent = (inputValue) => {
       }
    }
 
-   if (matchedData != []) {
+   if (matchedData.length > 0) {
       showPage(1, matchedData);
       appendPageLinks(matchedData);
-      document.querySelector('a').classList = 'active';
+      document.querySelector('a').className = 'active';
       paginationDiv.style.display = '';
       emptyData.innerHTML = '';
    } 
