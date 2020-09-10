@@ -115,6 +115,7 @@ const filterStudent = (inputValue) => {
    for (let i = 0; i < studentList.length; i++) {
       if (studentList[i].textContent.toLowerCase().includes(searchContent.toLowerCase())) {
          const studentDetails = studentList[i].parentNode.parentNode;
+         console.log(studentDetails);
          matchedData.push(studentDetails);
       } else {
          emptyData.innerHTML = '<p> No student matches your search criteria. </p>';
